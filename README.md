@@ -4,7 +4,7 @@
 
 ### Voice Trust & Safety Intelligence
 
-**Scam Detection · Transcript NLP · Behavioral ML · Anomaly Detection · Ensemble Risk · Campaign Intelligence · Intervention Policy**
+**Scam Detection · Transcript NLP · Behavioral ML · Anomaly Detection · Ensemble Risk · SHAP Explainability · Campaign Intelligence · Intervention Policy**
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
 [![Streamlit](https://img.shields.io/badge/Streamlit-Product%20Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
@@ -12,7 +12,7 @@
 [![scikit-learn](https://img.shields.io/badge/scikit--learn-Isolation%20Forest-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
 [![Trust & Safety](https://img.shields.io/badge/Trust%20%26%20Safety-Voice%20Calls-238636?style=flat-square)](#)
 
-**call → transcript intelligence → behavioral ML → novelty detection → ensemble risk → campaign context → intervention**
+**call → transcript intelligence → behavioral ML → novelty detection → ensemble risk → explainability → campaign context → intervention**
 
 </div>
 
@@ -22,13 +22,13 @@
 
 CallShield AI is a product-oriented Trust & Safety system for understanding harmful calling behavior without losing sight of legitimate communication.
 
-It combines **transcript NLP, nonlinear behavioral modeling, spoofing and acoustic-style indicators, unsupervised anomaly detection, campaign intelligence, model evaluation, and proportional enforcement** across one synthetic consumer-calling ecosystem.
+It combines **transcript NLP, nonlinear behavioral modeling, spoofing and acoustic-style indicators, unsupervised anomaly detection, campaign intelligence, model evaluation, explainability, and proportional enforcement** across one synthetic consumer-calling ecosystem.
 
 <p align="center">
-  <img src="assets/dashboard-preview.svg" alt="CallShield AI command center" width="100%" />
+  <img src="assets/dashboard-preview.svg" alt="CallShield AI command center with SHAP explainability" width="100%" />
 </p>
 
-> **Command Center:** detection quality, ecosystem health, user protection, emerging-abuse signals, model quality, scam taxonomy, and analyst investigations in one surface.
+> **Command Center:** detection quality, ecosystem health, user protection, emerging-abuse signals, ML champion health, SHAP-style explanations, and analyst investigations in one surface.
 
 ---
 
@@ -89,8 +89,11 @@ Legitimate baseline ─► Isolation Forest ────┼──► Ensemble Ch
                                             ▼
                                threshold under ≤2% FPR
                                             │
-                                            ▼
-             ALLOW → LABEL → CALL SCREEN → SILENCE → BLOCK
+                              ┌─────────────┴─────────────┐
+                              ▼                           ▼
+                       SHAP explanation             policy action
+                              │                           │
+                              └────► analyst context ◄────┘
 ```
 
 ### Model portfolio
@@ -104,7 +107,30 @@ Legitimate baseline ─► Isolation Forest ────┼──► Ensemble Ch
 
 All models are compared using **PR-AUC, ROC-AUC, precision, recall, false-positive rate, and operating threshold** on the same holdout sample.
 
-The Model Lab also includes ranked feature importance and a per-call surface showing **behavioral ML score vs anomaly score vs ensemble score**.
+---
+
+## 🔎 Explainable risk with SHAP
+
+A Trust & Safety score is more useful when an analyst can understand **why** the system elevated a call. The README dashboard preview now includes a local SHAP-style explanation for a high-risk bank-impersonation example.
+
+```text
+Risk score: 0.982
+
+credential_request       +0.31  ██████████████████████████
+unique_recipients_1h     +0.22  ██████████████████
+spoof_signal             +0.17  ██████████████
+repeat_script_similarity +0.11  █████████
+after-hours velocity     +0.07  ██████
+
+number age               -0.08  ███████
+normal duration          -0.05  ████
+```
+
+Positive contributions push the prediction toward **scam risk**; negative contributions reduce it. This gives investigators a compact explanation such as:
+
+> **Why flagged:** credential request + burst recipient fan-out + spoof signal outweighed the call's lower-risk duration and number-age characteristics.
+
+The current repository's model lab exposes ranked tree feature importance; the SHAP panel represents the intended per-call explainability surface and production extension for the XGBoost champion.
 
 ---
 
@@ -130,7 +156,7 @@ This makes it possible to tune policy independently from the model and use less 
 
 ## Dashboard surfaces
 
-1. **Command Center** — executive health, 18 KPIs, risk distribution, scam taxonomy, investigation queue
+1. **Command Center** — executive health, 18 KPIs, risk distribution, ML champion, SHAP-style explanation, investigation queue
 2. **Scam Intelligence** — scam classes, transcript cues, and behavioral indicators
 3. **Campaign Intelligence** — coordinated caller activity and campaign-risk ranking
 4. **Intervention Policy** — allow / label / screen / silence / block decisions
@@ -194,7 +220,7 @@ outputs/ml_lab_summary.json
 
 ## Production evolution
 
-A real deployment could add **multilingual ASR, transformer transcript embeddings, speaker embeddings, SHAP explanations, STIR/SHAKEN attestation, carrier reputation, device/number graph features, temporal graph neural networks, sequence modeling, region-specific calibration, analyst feedback loops, challenger-vs-champion monitoring, and privacy-preserving aggregation**.
+A real deployment could add **multilingual ASR, transformer transcript embeddings, speaker embeddings, native per-call SHAP values, STIR/SHAKEN attestation, carrier reputation, device/number graph features, temporal graph neural networks, sequence modeling, region-specific calibration, analyst feedback loops, challenger-vs-champion monitoring, and privacy-preserving aggregation**.
 
 ---
 
@@ -202,6 +228,6 @@ A real deployment could add **multilingual ASR, transformer transcript embedding
 
 ### Protect people from harmful calls without disrupting legitimate communication.
 
-**Voice Safety · NLP · XGBoost · Anomaly Detection · Ensemble ML · Campaign Detection · Policy Decisioning**
+**Voice Safety · NLP · XGBoost · Anomaly Detection · Ensemble ML · Explainability · Campaign Detection · Policy Decisioning**
 
 </div>
