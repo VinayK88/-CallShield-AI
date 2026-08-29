@@ -4,50 +4,63 @@
 
 ### Voice Trust & Safety Intelligence
 
-**Detect harmful calls. Explain the risk. Apply the right intervention.**
+**Know when a call doesn't feel right.**
 
-[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=flat-square&logo=python&logoColor=white)](https://www.python.org/)
-[![Streamlit](https://img.shields.io/badge/Streamlit-Product%20Dashboard-FF4B4B?style=flat-square&logo=streamlit&logoColor=white)](https://streamlit.io/)
-[![XGBoost](https://img.shields.io/badge/XGBoost-Behavioral%20ML-EC6B23?style=flat-square)](https://xgboost.ai/)
-[![scikit-learn](https://img.shields.io/badge/scikit--learn-Anomaly%20Detection-F7931E?style=flat-square&logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
-[![Explainability](https://img.shields.io/badge/Explainability-SHAP-0071E3?style=flat-square)](#explainable-risk)
-[![Trust & Safety](https://img.shields.io/badge/Trust%20%26%20Safety-Voice%20Calls-238636?style=flat-square)](#)
-
-`Transcript NLP` · `Behavioral ML` · `Anomaly Detection` · `Ensemble Risk` · `SHAP` · `Campaign Intelligence`
+`Transcript NLP` · `Behavioral ML` · `Anomaly Detection` · `Ensemble Risk` · `Explainability` · `Campaign Intelligence`
 
 </div>
 
----
-
-## A clearer signal for risky calls.
-
-CallShield AI is an end-to-end **voice Trust & Safety data science platform** designed to identify scam calls, understand coordinated abuse, explain model decisions, and translate risk into proportional product interventions.
-
-Instead of treating every call as an isolated classification problem, CallShield combines **what was said, how the caller behaves, how widely the caller is reaching, whether the activity looks anomalous, and whether the caller resembles a coordinated campaign**.
+<br/>
 
 <p align="center">
-  <img src="assets/dashboard-preview.svg" alt="CallShield AI Command Center with KPI monitoring, ML champion health, and SHAP explainability" width="100%" />
+  <img src="assets/dashboard-preview.svg" alt="CallShield AI product dashboard preview" width="100%" />
 </p>
 
 <p align="center"><sub>Command Center · synthetic portfolio demonstration</sub></p>
 
 ---
 
-## Product objectives
+## A voice-safety system, not just a classifier.
 
-| Objective | Product question |
+CallShield AI is an end-to-end Trust & Safety data science platform for identifying scam calls, understanding coordinated abuse, explaining risk, and translating model outputs into proportional product interventions.
+
+The product combines **what was said, how the caller behaves, how widely they are reaching, whether the behavior is anomalous, and whether it resembles a coordinated campaign**.
+
+```text
+call event
+   │
+   ├── transcript intelligence
+   ├── behavioral signals
+   ├── spoof / identity signals
+   ├── acoustic-style indicators
+   └── campaign context
+             │
+             ▼
+       ensemble risk
+             │
+      explain + calibrate
+             │
+             ▼
+ALLOW → LABEL → CALL SCREEN → SILENCE → BLOCK
+```
+
+---
+
+## Product surfaces
+
+| Surface | Purpose |
 |---|---|
-| **Detect** | Is this call likely to be harmful? |
-| **Understand** | What scam pattern or campaign does it resemble? |
-| **Explain** | Which signals drove the model's risk estimate? |
-| **Protect** | Should the experience allow, label, screen, silence, or block? |
-| **Measure** | Are protections reducing abuse without disrupting legitimate calls? |
+| **Command Center** | 18 KPIs, model health, ecosystem risk, investigation queue |
+| **Scam Intelligence** | scam taxonomy, transcript cues, spoofing, behavioral evidence |
+| **Campaign Intelligence** | coordinated callers, fan-out, script repetition, report concentration |
+| **Intervention Policy** | graduated user protection from allow through block |
+| **ML Model Lab** | baseline-vs-champion comparison, anomaly detection, ensemble analysis, feature importance |
+
+All five Streamlit surfaces use the same visual system: **SF/Helvetica-style typography, white and soft-gray surfaces, restrained blue accents, rounded cards, subtle borders, generous whitespace, and minimal visual noise**.
 
 ---
 
 ## 18 ecosystem KPIs
-
-The Command Center groups metrics by the decision they support rather than presenting one flat monitoring wall.
 
 | Detection quality | Protection & ecosystem | Emerging abuse signals |
 |---|---|---|
@@ -58,18 +71,14 @@ The Command Center groups metrics by the decision they support rather than prese
 | PR-AUC | Average recipient reach | Reported-call rate |
 | High-risk traffic | Users protected | New-number high-risk rate |
 
-**Primary product guardrail:** false-positive rate **≤2%** at the selected operating threshold.
-
-That constraint matters because an anti-abuse model is not successful if it protects users by aggressively disrupting legitimate communication.
+**Primary product guardrail:** legitimate-call false-positive rate **≤2%** at the selected operating threshold.
 
 ---
 
-## Abuse taxonomy
+## Scam taxonomy
 
 ```text
 LEGITIMATE
-├── Personal / expected communication
-└── Transactional / service communication
 
 UNWANTED OR HARMFUL
 ├── Robocall
@@ -85,69 +94,50 @@ UNWANTED OR HARMFUL
 
 ## Signal intelligence
 
-A call can accumulate risk from multiple independent signal families.
-
 | Signal family | Example features | Why it matters |
 |---|---|---|
-| **Transcript intelligence** | urgency, credential requests, payment language | identifies social-engineering intent |
-| **Behavioral ML** | calls/hour, recipient fan-out, reports, duration | detects abnormal caller behavior |
-| **Identity / spoofing** | new number, spoof indicator | captures caller-identity uncertainty |
+| **Transcript intelligence** | urgency, credential requests, payment language | captures social-engineering intent |
+| **Behavioral ML** | calls/hour, recipient fan-out, reports, duration | captures abnormal caller behavior |
+| **Identity / spoofing** | new number, spoof indicator | captures identity uncertainty |
 | **Acoustic proxy** | robotic-voice score | supports robocall detection |
-| **Campaign context** | repeated scripts, reach, report concentration | surfaces coordinated abuse |
-| **Novelty detection** | distance from legitimate behavioral baseline | catches patterns outside known scam labels |
+| **Campaign context** | repeated scripts, reach, reports | surfaces coordinated abuse |
+| **Novelty detection** | distance from legitimate baseline | catches behavior outside known labels |
 
 ---
 
-## 🧠 ML Model Lab
+## ML Model Lab
 
-CallShield uses multiple modeling perspectives rather than relying on a single classifier.
+CallShield compares multiple modeling perspectives rather than relying on one classifier.
 
 ```text
-                    CALL EVENT
-                        │
-          ┌─────────────┴─────────────┐
-          │                           │
- transcript + numeric             behavior
-          │                           │
- Logistic + TF-IDF                 XGBoost
-          │                           │
-          │                ┌──────────┘
-          │                │
- legitimate baseline ─► Isolation Forest
-          │                │
-          └────────┬───────┘
-                   ▼
-           ENSEMBLE RISK SCORE
-                   │
-          threshold ≤2% FPR
-             ┌─────┴─────┐
-             ▼           ▼
-      SHAP explanation   policy engine
-             │           │
-             └─────┬─────┘
-                   ▼
-            analyst context
-```
+Transcript + numeric baseline ──► Logistic + TF-IDF
 
-### Model portfolio
+Behavioral features ────────────► XGBoost ───────┐
+                                                 │
+Legitimate behavioral baseline ─► Isolation Forest
+                                                 │
+                                                 ▼
+                                      Ensemble Champion
+                                                 │
+                                      threshold under ≤2% FPR
+                                                 │
+                                      explanation + policy
+```
 
 | Model | Purpose |
 |---|---|
-| **Logistic + TF-IDF** | interpretable transcript + numeric baseline |
-| **XGBoost** | nonlinear behavioral risk interactions |
-| **Isolation Forest** | unseen / novel behavioral anomaly detection |
-| **Ensemble Champion** | production-oriented combined risk score |
+| **Logistic + TF-IDF** | transparent transcript + numeric baseline |
+| **XGBoost** | nonlinear behavioral interactions |
+| **Isolation Forest** | novel behavioral anomaly detection |
+| **Ensemble Champion** | combined production-oriented risk score |
 
-Models are evaluated on the same holdout population using **PR-AUC, ROC-AUC, precision, recall, false-positive rate, and operating threshold**.
+Evaluation uses **PR-AUC, ROC-AUC, precision, recall, false-positive rate, and operating threshold** on a common holdout population.
 
 ---
 
-<a id="explainable-risk"></a>
-## 🔎 Explainable risk
+## Explainable risk
 
-A risk score should answer more than **“how risky?”** It should also help answer **“why?”**
-
-The dashboard preview includes a SHAP-style local explanation for a high-risk bank-impersonation example:
+The product is designed so a high-risk call can be accompanied by analyst-readable evidence rather than only a score.
 
 ```text
 CALLER       caller_00118
@@ -155,62 +145,24 @@ RISK         0.982
 CLASS        BANK IMPERSONATION
 ACTION       BLOCK
 
-Signals increasing risk
-credential_request       +0.31  ██████████████████████████
-unique_recipients_1h     +0.22  ██████████████████
-spoof_signal             +0.17  ██████████████
-repeat_script_similarity +0.11  █████████
-after_hours_velocity     +0.07  ██████
-
-Signals reducing risk
-number_age               -0.08  ███████
-normal_duration          -0.05  ████
+credential_request       +0.31
+unique_recipients_1h     +0.22
+spoof_signal             +0.17
+repeat_script_similarity +0.11
+normal_duration          -0.05
 ```
 
-### Analyst interpretation
-
-> **Credential-request language, rapid recipient fan-out, and spoofing are the strongest contributors pushing this call toward scam risk. Lower-risk duration and number-age signals partially offset the score but are not sufficient to change the decision.**
-
-This explanation layer is intended to support **investigation, model validation, false-positive review, policy tuning, and stakeholder communication**.
-
-> **Implementation note:** the current model lab exposes ranked tree feature importance. The README SHAP surface represents the intended per-call explainability extension for the XGBoost champion rather than claiming native SHAP values are already generated by the pipeline.
-
----
-
-## From model score to product action
-
-Prediction and enforcement are deliberately separated.
-
-```text
-LOW RISK                                                   HIGH RISK
-   │                                                           │
-   ▼                                                           ▼
- ALLOW → LABEL SUSPECTED SPAM → CALL SCREEN → SILENCE → BLOCK
-```
-
-This lets policy teams change the user experience without retraining the underlying model and enables less disruptive interventions for uncertain cases.
+> The current Model Lab exposes tree feature importance. Native per-call SHAP values are a documented production extension; the README preview represents the intended local-explanation experience rather than claiming generated SHAP values already exist in the pipeline.
 
 ---
 
 ## Campaign intelligence
 
-Individual call risk is only one layer of the problem. CallShield also aggregates caller activity to identify coordinated behavior using:
+Individual risk is aggregated into caller-level campaign risk using:
 
 `recipient fan-out` · `average model risk` · `report volume` · `script repetition` · `spoof rate` · `observed scam concentration`
 
-The result is a caller-level **campaign risk score** that helps prioritize emerging abuse clusters for investigation.
-
----
-
-## Dashboard surfaces
-
-| Surface | Purpose |
-|---|---|
-| **Command Center** | 18 KPIs, model health, risk distribution, SHAP-style explanation, priority investigations |
-| **Scam Intelligence** | taxonomy, transcripts, behavioral indicators, high-risk events |
-| **Campaign Intelligence** | coordinated caller activity and campaign ranking |
-| **Intervention Policy** | allow / label / screen / silence / block distribution |
-| **ML Model Lab** | champion-vs-baseline evaluation, anomaly scores, feature importance, ensemble analysis |
+This helps surface abuse that becomes obvious only when activity is viewed as a coordinated pattern.
 
 ---
 
@@ -222,6 +174,7 @@ The result is a caller-level **campaign risk score** that helps prioritize emerg
 │   └── dashboard-preview.svg
 ├── dashboard/
 │   ├── app.py
+│   ├── ui.py
 │   └── pages/
 │       ├── 1_Scam_Intelligence.py
 │       ├── 2_Campaign_Intelligence.py
@@ -239,8 +192,7 @@ The result is a caller-level **campaign risk score** that helps prioritize emerg
 │   └── test_pipeline.py
 ├── .streamlit/
 │   └── config.toml
-├── requirements.txt
-└── README.md
+└── requirements.txt
 ```
 
 ---
@@ -255,7 +207,7 @@ python src/run_pipeline.py --rows 30000
 streamlit run dashboard/app.py
 ```
 
-### Generated artifacts
+Generated artifacts:
 
 ```text
 outputs/scored_calls.csv
@@ -268,39 +220,15 @@ outputs/ml_lab_summary.json
 
 ---
 
-## Evaluation philosophy
-
-CallShield treats model quality as a **product tradeoff**, not simply an accuracy problem.
-
-```text
-maximize harmful-call recall
-            │
-            ▼
-subject to legitimate-call disruption ≤ acceptable guardrail
-            │
-            ▼
-compare candidate models
-            │
-            ▼
-select champion threshold
-            │
-            ▼
-monitor precision · recall · PR-AUC · FPR · ecosystem impact
-```
-
-This mirrors how a consumer-facing safety system would need to balance protection, friction, and trust.
-
----
-
 ## Production evolution
 
-A production implementation could extend the platform with **multilingual ASR, transformer transcript embeddings, speaker embeddings, native per-call SHAP values, STIR/SHAKEN attestation, carrier reputation, device/number graphs, temporal graph neural networks, sequence modeling, market-specific calibration, drift monitoring, analyst feedback loops, challenger-vs-champion deployment, and privacy-preserving aggregation**.
+A production implementation could add **multilingual ASR, transformer transcript embeddings, speaker embeddings, native per-call SHAP values, STIR/SHAKEN attestation, carrier reputation, device/number graphs, temporal graph neural networks, market-specific calibration, drift monitoring, analyst feedback loops, challenger-vs-champion deployment, and privacy-preserving aggregation**.
 
 ---
 
 ## Data & scope
 
-All callers, recipients, transcripts, reports, acoustic indicators, and outcomes in this repository are **synthetic**. The project is designed to demonstrate applied data science, Trust & Safety measurement, ML evaluation, explainability, and product decisioning—not to represent a production telecom dataset.
+All callers, recipients, transcripts, reports, acoustic indicators, and outcomes are **synthetic**. The project demonstrates applied data science, Trust & Safety measurement, ML evaluation, explainability, and product decisioning rather than representing production telecom data.
 
 ---
 
@@ -308,6 +236,6 @@ All callers, recipients, transcripts, reports, acoustic indicators, and outcomes
 
 ### Protect people from harmful calls without disrupting legitimate communication.
 
-**Voice Safety · NLP · Behavioral ML · XGBoost · Anomaly Detection · SHAP · Campaign Intelligence · Product Measurement**
+**Voice Safety · NLP · XGBoost · Anomaly Detection · Ensemble ML · Explainability · Campaign Intelligence**
 
 </div>
