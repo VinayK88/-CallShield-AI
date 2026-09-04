@@ -169,7 +169,7 @@ This helps surface abuse that becomes obvious only when activity is viewed as a 
 ## Repository architecture
 
 ```text
--CallShield-AI/
+CallShield-AI/
 ├── assets/
 │   └── dashboard-preview.svg
 ├── dashboard/
